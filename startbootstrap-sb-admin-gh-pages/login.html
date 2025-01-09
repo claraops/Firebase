@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.firebasestorage.app",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580",
+            measurementId: "G-RGCTEYR13T"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Gestion du bouton de connexion
+        window.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('loginButton');
+
+            loginButton.addEventListener('click', async () => {
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                // Vérification des champs
+                if (!email || !password) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                // Désactiver le bouton pour éviter les clics multiples
+                loginButton.disabled = true;
+                loginButton.textContent = "Connexion en cours...";
+
+                try {
+                    // Requête Firestore pour vérifier l'utilisateur
+                    const q = query(
+                        collection(db, "Users"),
+                        where("email", "==", email),
+                        where("password", "==", password)
+                    );
+
+                    const querySnapshot = await getDocs(q);
+
+                    if (!querySnapshot.empty) {
+                        const userData = querySnapshot.docs[0].data();
+                        alert(`Bienvenue, ${userData.firstname} ${userData.lastname}!`);
+                        // Redirection vers la page principale
+                        window.location.href = "index.html";
+                    } else {
+                        alert("Email ou mot de passe incorrect.");
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de la connexion :", error);
+                    alert("Une erreur est survenue. Veuillez réessayer plus tard.");
+                } finally {
+                    // Réactiver le bouton
+                    loginButton.disabled = false;
+                    loginButton.textContent = "Login";
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-success">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" autocomplete="username" />
+                                <label for="email">Email address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" placeholder="Password" autocomplete="current-password" />
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <a class="small" href="password.html">Forgot Password?</a>
+                                <button type="button" class="btn btn-success" id="loginButton">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Login Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Email ou mot de passe incorrect. Veuillez <a href="register.html">créer un compte</a>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.firebasestorage.app",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580",
+            measurementId: "G-RGCTEYR13T"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth();
+
+        // Gestion du bouton de connexion
+        window.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('loginButton');
+
+            loginButton.addEventListener('click', async () => {
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                // Vérification des champs
+                if (!email || !password) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                // Affichage du chargement
+                loginButton.disabled = true;
+                loginButton.textContent = "Connexion en cours...";
+
+                try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log("Utilisateur connecté :", user.uid);
+
+    // Requête Firestore
+    const q = query(
+        collection(db, "Users"),
+        where("email", "==", email)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+        const userData = querySnapshot.docs[0].data();
+        console.log("Utilisateur trouvé :", userData);
+        alert(`Bienvenue, ${userData.firstname} ${userData.lastname}!`);
+    } else {
+        alert("Aucun utilisateur trouvé avec cet email et mot de passe.");
+    }
+} catch (error) {
+    // Gestion des erreurs
+    if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        alert("Email ou mot de passe incorrect.");
+    } else {
+        console.error("Erreur lors de la requête :", error);
+        alert("Une erreur est survenue. Veuillez réessayer plus tard.");
+    }
+}
+
+            });
+        });
+    </script>
+</head>
+<body class="bg-success">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com"  autocomplete="username" />
+                                <label for="email">Email address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" placeholder="Password" autocomplete="current-password"/>
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <a class="small" href="password.html">Forgot Password?</a>
+                                <button type="button" class="btn btn-success" id="loginButton">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal --
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Login Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Email ou mot de passe incorrect. Veuillez <a href="register.html">créer un compte</a>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.firebasestorage.app",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580",
+            measurementId: "G-RGCTEYR13T"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Gestion du bouton de connexion
+        window.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('loginButton');
+
+            loginButton.addEventListener('click', async () => {
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                // Vérification des champs
+                if (!email || !password) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                // Affichage du chargement
+                loginButton.disabled = true;
+                loginButton.textContent = "Connexion en cours...";
+
+                try {
+                    const q = query(
+                        collection(db, "Profile"),
+                        where("email", "==", email),
+                        where("password", "==", password)
+                    );
+
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    // Utilisateur trouvé
+                    const userData = querySnapshot.docs[0].data();
+                    alert(`Bienvenue, ${userData.firstname} ${userData.lastname}!`);
+                    window.location.href = "index.html";
+                } else {
+                    // Aucun utilisateur trouvé
+                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                    errorModal.show();
+                }
+                } catch (error) {
+                    console.error("Erreur lors de la connexion :", error);
+                    alert("Une erreur est survenue. Veuillez réessayer plus tard.");
+                }
+
+    });
+});
+    </script>
+</head>
+<body class="bg-success">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com"  autocomplete="username" />
+                                <label for="email">Email address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" placeholder="Password" autocomplete="current-password"/>
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <a class="small" href="password.html">Forgot Password?</a>
+                                <button type="button" class="btn btn-success" id="loginButton">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Login Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Email ou mot de passe incorrect. Veuillez <a href="register.html">créer un compte</a>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.firebasestorage.app",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580",
+            measurementId: "G-RGCTEYR13T"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+
+        // Login button event listener
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loginButton').addEventListener('click', async (e) => {
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                if (!email || !password) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                try {
+                    const q = query(
+                        collection(db, "Profile"),
+                        where("email", "==", email),
+                        where("password", "==", password)
+                    );
+
+                    const querySnapshot = await getDocs(q);
+
+                    if (!querySnapshot.empty) {
+                        // Login successful, redirect to index.html
+                        alert("Connexion réussie !");
+                        window.location.href = "index.html";
+                    } else {
+                        // Show error modal
+                        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        errorModal.show();
+                    }
+                } catch (error) {
+                    console.error("Error during login: ", error);
+                    alert("Une erreur s'est produite lors de la tentative de connexion.");
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-success">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" />
+                                <label for="inputEmail">Email address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" placeholder="Password" />
+                                <label for="inputPassword">Password</label>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <a class="small" href="password.html">Forgot Password?</a>
+                                <button type="button" class="btn btn-success" id="loginButton">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal --
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Login Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Email or password is incorrect. Please <a href="register.html">create an account</a>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+   
+</head>
+<body class="bg-success">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                <div class="card-body">
+                                    <form id="loginForm">
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                                            <label for="inputEmail">Email address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputPassword" type="password" placeholder="Password" autocomplete="current-password" />
+                                            <label for="inputPassword">Password</label>
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
+                                            <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            <a class="small" href="password.html">Forgot Password?</a>
+                                            <button type="button" class="btn btn-success" id="loginButton">Login</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <br><br><br><br><br><br><br>
+        </div>
+        <div id="layoutAuthentication_footer">
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal --
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Login Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Email or password is incorrect. Please <a href="register.html">create an account</a>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+   
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Login - SB Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+       
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    </head>
+
+    <body class="bg-success">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                                                <label for="inputEmail">Email address</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password"  autocomplete="current-password" />
+                                                <label for="inputPassword">Password</label>
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
+                                                <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="small" href="password.html">Forgot Password?</a>
+                                                <a class="btn btn-success" href="">Login</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <br><br><br><br><br><br><br>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

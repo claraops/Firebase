@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashboard - SB Admin</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.appspot.com",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Récupération des données depuis Firestore
+        document.addEventListener("DOMContentLoaded", async () => {
+            const cardContainer = document.querySelector(".card-container");
+            try {
+                const querySnapshot = await getDocs(collection(db, "Formation"));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const card = document.createElement("div");
+                    card.className = "card";
+
+                    card.innerHTML = `
+                        <h3>${data.titre}</h3>
+                        <a href="#">
+                            <div class="card-image" style="background-image: url('assets/img/${data.photoFormation}');"></div>
+                            <div class="card-content">
+                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <a class="btn btn-success" href="cour.html">Commencez</a>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                    cardContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Erreur lors de la récupération des formations :", error);
+            }
+        });
+    </script>
+</head>
+<body class="sb-nav-fixed">
+    <!-- Navbar -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-success">
+        <a class="navbar-brand ps-3" href="index.html">e.knowledge</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Menu</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                               Authentication
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="login.html">Login</a>
+                                    <a class="nav-link" href="register.html">Register</a>
+                                    <a class="nav-link" href="password.html">Forgot Password</a>
+                                    <a class="nav-link" href="page.html">Login</a>
+                                </nav>
+                       
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                            </nav>
+                        </div>
+                       
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Addons</div>
+                        <a class="nav-link" href="cour.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Mes Cours
+                        </a>
+                        <a class="nav-link" href="liste_utilisateur.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                           Etudiants
+                        </a>
+                        <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Tableau
+                        </a>
+                        <div class="collapse" id="collapsePagesError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="401.html">401 Page</a>
+                                <a class="nav-link" href="404.html">404 Page</a>
+                                <a class="nav-link" href="500.html">500 Page</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <!--<div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Start Bootstrap
+                    </div>-->
+                </nav>
+            </div>
+        </div>
+        
+        <div id="layoutSidenav_content">
+            <main style="margin: 100px; padding: 100px;">
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Bienvenue sur notre application !</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">Quel est votre domaine ?</li>
+                    </ol>
+
+                    <div class="card-container">
+                        <!-- Card 1 -->
+                        <div class="card">
+                            <h3>Formation Laravel</h3>
+                            <a href="page1.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="card">
+                            <h3>Formation Flutter</h3>
+                            <a href="page2.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="card">
+                            <h3>Formation Javascript</h3>
+                            <a href="page3.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="card">
+                            <h3>Formation MySQL</h3>
+                            <a href="page4.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="card">
+                            <h3>Formation Angular</h3>
+                            <a href="page5.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Card 6 -->
+                        <div class="card">
+                            <h3>Formation PHP</h3>
+                            <a href="page6.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <!-- Optional Footer Content -->
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const studentLink = document.getElementById('studentLink');
+    
+    // Fonction pour vérifier si l'utilisateur est un professeur
+    async function checkUserRole() {
+        try {
+            const user = await getCurrentUser(); // Assurez-vous que cette fonction est définie et qu'elle retourne l'utilisateur connecté.
+            if (user && user.role === 'professeur') {
+                studentLink.href = "liste_utilisateur.html"; // Rediriger vers la page si le rôle est "prof"
+            } else {
+                studentLink.href = "#"; // Sinon, on ne redirige nulle part.
+                studentLink.setAttribute('disabled', 'disabled'); // Optionnel : pour désactiver le lien si l'utilisateur n'est pas un prof.
+            }
+        } catch (error) {
+            console.error("Erreur lors de la vérification du rôle de l'utilisateur :", error);
+        }
+    }
+
+    // Appel de la fonction au chargement de la page
+    checkUserRole();
+});
+
+// Fonction pour obtenir l'utilisateur connecté
+async function getCurrentUser() {
+    // Implémentez cette fonction pour récupérer l'utilisateur authentifié
+    // Exemple avec Firebase ou autre système d'authentification
+    const user = await firebase.auth().currentUser; // ou toute autre méthode selon votre framework d'authentification
+    return user;
+}
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashboard - SB Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.appspot.com",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Récupération des données depuis Firestore
+        document.addEventListener("DOMContentLoaded", async () => {
+            const cardContainer = document.querySelector(".card-container");
+            try {
+                const querySnapshot = await getDocs(collection(db, "Formation"));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const card = document.createElement("div");
+                    card.className = "card";
+
+                    card.innerHTML = `
+                        <h3>${data.titre}</h3>
+                        <a href="#">
+                            <div class="card-image" style="background-image: url('assets/img/${data.photoFormation}');"></div>
+                            <div class="card-content">
+                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <a class="btn btn-success" href="cour.html">Commencez</a>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                    cardContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Erreur lors de la récupération des formations :", error);
+            }
+        });
+    </script>
+</head>
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-success">
+    <!-- Navbar Brand  --
+    <a class="navbar-brand ps-3" href="index.html">e.knowledge</a>
+    <!-- Sidebar Toggle--
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <!-- Navbar Search--
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+            <button class="btn btn-success" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <!-- Navbar--
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!">Settings</a></li>
+                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#!">Page</a></li>
+                <li><a class="dropdown-item" href="#!">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Menu</div>
+                    <a class="nav-link" href="index.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Dashboard
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Interface</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Login
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <a class="nav-link" href="cour.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        Parcours
+                    </a>
+                    <a class="nav-link" href="charts.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                       tableau
+                  
+                </div>
+                    
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                            <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                        </nav>
+                    </div>>--
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Pages
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                Authentication
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="login.html">Login</a>
+                                    <a class="nav-link" href="register.html">Register</a>
+                                    <a class="nav-link" href="password.html">Forgot Password</a>
+                                    <a class="nav-link" href="page.html">Login</a>
+                                </nav>
+                            </div>
+                            <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link" href="cour.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Parcours
+                            </a>
+                            <a class="nav-link" href="charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                               tableau
+                          
+                        </div>
+                         
+                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="401.html">401 Page</a>
+                                    <a class="nav-link" href="404.html">404 Page</a>
+                                    <a class="nav-link" href="500.html">500 Page</a>
+                                </nav>
+                            </div>
+                        </nav>
+                    </div>
+                   
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                Start Bootstrap
+            </div>
+        </nav>
+    </div>
+    <!--<nav class="sb-topnav navbar navbar-expand navbar-dark bg-success">
+        <a class="navbar-brand ps-3" href="index.html">e.knowledge</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+   
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <!-- Sidebar content --
+                 
+            </nav>--
+        </div>
+        <div id="layoutSidenav_content">
+            <main style="margin: 100; padding: 100;">
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Bienvenue sur notre application !</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">Quel est votre domaine ?</li>
+                    </ol>
+
+                    <div class="card-container">
+                        <div class="card">
+                            <h3>formation laravel</h3>
+                            <a href="page1.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div> 
+                                </div>
+                                
+                            </a>
+                        </div>
+                        <div class="card">
+                            <h3>Formation Flutter</h3>
+                            <a href="page2.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card">
+                            <h3>Formation Javascript</h3>
+                                <a href="page3.html">
+                                    <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                    <div class="card-content">
+                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            <a class="btn btn-success" href="cour.html">Commencez</a>
+                                        </div>
+                                        
+                                    </div>
+                                </a>
+                        </div>
+                        <div class="card">
+                            <h3>Formation MySql</h3>
+                            <a href="page4.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div> 
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card">
+                            <h3>Formation Angular</h3>
+                            <a href="page5.html">
+                               
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div> 
+                                
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card">
+                            <h3>Formation PHP</h3>
+                            <a href="page6.html">
+                                <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <a class="btn btn-success" href="cour.html">Commencez</a>
+                                    </div> 
+                                   
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+
+                        <!-- Les cartes dynamiques seront insérées ici --
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                       <!----<div class="text-muted">Copyright &copy; Your Website 2022</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>--
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+     <!--<script src="js/scripts.js"></script>
+      <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>--
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dashboard - SB Admin</title>
+        <link rel="stylesheet" href="style.css">
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-success"
+            <!-- Navbar Brand--
+            <a class="navbar-brand ps-3" href="index.html">e.knowledge</a>
+            <!-- Sidebar Toggle--
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search--
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-success" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar--
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Page</a></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Menu</div>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Login
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+
+                            <a class="nav-link" href="cour.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Parcours
+                            </a>
+                            <a class="nav-link" href="charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                               tableau
+                          
+                        </div>
+                            
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>>--
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Pages
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Authentication
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="login.html">Login</a>
+                                            <a class="nav-link" href="register.html">Register</a>
+                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                            <a class="nav-link" href="page.html">Login</a>
+                                        </nav>
+                                    </div>
+                                    <div class="sb-sidenav-menu-heading">Addons</div>
+                                    <a class="nav-link" href="cour.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                        Parcours
+                                    </a>
+                                    <a class="nav-link" href="charts.html">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                       tableau
+                                  
+                                </div>
+                                 
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="401.html">401 Page</a>
+                                            <a class="nav-link" href="404.html">404 Page</a>
+                                            <a class="nav-link" href="500.html">500 Page</a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+                           
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Start Bootstrap
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                       <h1 class="mt-4"> .....................   Bienvenu sur notre application !</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">quel est votre dommaine ?</li>
+
+
+                            <div class="card-container">
+                                <div class="card">
+                                    <h3>formation laravel</h3>
+                                    <a href="page1.html">
+                                        <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                        <div class="card-content">
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="btn btn-success" href="cour.html">Commencez</a>
+                                            </div> 
+                                        </div>
+                                        
+                                    </a>
+                                </div>
+                                <div class="card">
+                                    <h3>Formation Flutter</h3>
+                                    <a href="page2.html">
+                                        <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                        <div class="card-content">
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="btn btn-success" href="cour.html">Commencez</a>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card">
+                                    <h3>Formation Javascript</h3>
+                                        <a href="page3.html">
+                                            <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                            <div class="card-content">
+                                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <a class="btn btn-success" href="cour.html">Commencez</a>
+                                                </div>
+                                                
+                                            </div>
+                                        </a>
+                                </div>
+                                <div class="card">
+                                    <h3>Formation MySql</h3>
+                                    <a href="page4.html">
+                                        <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                        <div class="card-content">
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="btn btn-success" href="cour.html">Commencez</a>
+                                            </div> 
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card">
+                                    <h3>Formation Angular</h3>
+                                    <a href="page5.html">
+                                       
+                                        <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                        <div class="card-content">
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="btn btn-success" href="cour.html">Commencez</a>
+                                            </div> 
+                                        
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="card">
+                                    <h3>Formation PHP</h3>
+                                    <a href="page6.html">
+                                        <div class="card-image" style="background-image: url('assets/img/apprendre.jpg_wh860.jpg');"></div>
+                                        <div class="card-content">
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="btn btn-success" href="cour.html">Commencez</a>
+                                            </div> 
+                                           
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+             
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                           <!--- <div class="text-muted">Copyright &copy; Your Website 2022</div>--
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Utilisateurs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Liste des Utilisateurs</h1>
+        <button class="btn btn-success mb-3" id="addUserBtn">Ajouter un utilisateur</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Les utilisateurs seront chargés ici -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal pour ajouter/modifier un utilisateur -->
+    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Ajouter/Modifier Utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="userEmail" required>
+                        </div>
+                        <input type="hidden" id="userId">
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.firebasestorage.app",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580",
+            measurementId: "G-RGCTEYR13T"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const userTableBody = document.getElementById('userTableBody');
+        const userModal = new bootstrap.Modal(document.getElementById('userModal'));
+        const userForm = document.getElementById('userForm');
+        const userEmail = document.getElementById('userEmail');
+        const userId = document.getElementById('userId');
+        const addUserBtn = document.getElementById('addUserBtn');
+
+        // Fonction pour récupérer les utilisateurs
+        async function loadUsers() {
+            userTableBody.innerHTML = '';
+            const querySnapshot = await getDocs(collection(db, "Users"));
+            querySnapshot.forEach((doc) => {
+                const user = doc.data();
+                const row = `
+                    <tr>
+                        <td>${doc.id}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editUser('${doc.id}', '${user.email}')">Modifier</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${doc.id}')">Supprimer</button>
+                        </td>
+                    </tr>
+                `;
+                userTableBody.innerHTML += row;
+            });
+        }
+
+        // Ajouter ou Modifier un utilisateur
+        userForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = userEmail.value;
+            const id = userId.value;
+
+            if (id) {
+                // Modifier un utilisateur
+                const userDoc = doc(db, "Users", id);
+                await updateDoc(userDoc, { email });
+            } else {
+                // Ajouter un utilisateur
+                await addDoc(collection(db, "Users"), { email });
+            }
+
+            userModal.hide();
+            loadUsers();
+        });
+
+        // Ouvrir le modal pour ajouter un utilisateur
+        addUserBtn.addEventListener('click', () => {
+            userId.value = '';
+            userEmail.value = '';
+            userModal.show();
+        });
+
+        // Modifier un utilisateur
+        window.editUser = (id, email) => {
+            userId.value = id;
+            userEmail.value = email;
+            userModal.show();
+        };
+
+        // Supprimer un utilisateur
+        window.deleteUser = async (id) => {
+            if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
+                const userDoc = doc(db, "Users", id);
+                await deleteDoc(userDoc);
+                loadUsers();
+            }
+        };
+
+        // Charger les utilisateurs au chargement de la page
+        loadUsers();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des utilisateurs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">Liste des utilisateurs</h1>
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5>Gestion des utilisateurs</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="userTable">
+                <thead>
+                    <tr>
+                        <th>numero</th>
+                        <th>Email</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Rôle</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les utilisateurs seront ajoutés ici dynamiquement --
+                </tbody>
+            </table>
+            <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                Ajouter un utilisateur
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal : Ajouter un utilisateur --
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Ajouter un utilisateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="mb-3">
+                        <label for="addEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="addEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addFirstname" class="form-label">Prénom</label>
+                        <input type="text" class="form-control" id="addFirstname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addLastname" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="addLastname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addRole" class="form-label">Rôle</label>
+                        <select id="addRole" class="form-select">
+                            <option value="professeur">Professeur</option>
+                            <option value="étudiant">Étudiant</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addPassword" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="addPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+        authDomain: "eknowledge-10550.firebaseapp.com",
+        projectId: "eknowledge-10550",
+        storageBucket: "eknowledge-10550.firebasestorage.app",
+        messagingSenderId: "562503063681",
+        appId: "1:562503063681:web:ff137f2b9a71e141749580",
+        measurementId: "G-RGCTEYR13T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const userCollection = collection(db, "Users");
+
+    const userTableBody = document.querySelector("#userTable tbody");
+
+    async function fetchUsers() {
+        userTableBody.innerHTML = "";
+        const querySnapshot = await getDocs(userCollection);
+        querySnapshot.forEach((doc, index) => {
+            const userData = doc.data();
+            userTableBody.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${userData.email}</td>
+                    <td>${userData.firstname}</td>
+                    <td>${userData.lastname}</td>
+                    <td>${userData.role}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editUser('${doc.id}', '${userData.email}', '${userData.firstname}', '${userData.lastname}', '${userData.role}')">Modifier</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteUser('${doc.id}')">Supprimer</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    async function addUser(e) {
+        e.preventDefault();
+        const email = document.getElementById("addEmail").value;
+        const firstname = document.getElementById("addFirstname").value;
+        const lastname = document.getElementById("addLastname").value;
+        const role = document.getElementById("addRole").value;
+        const password = document.getElementById("addPassword").value;
+
+        await addDoc(userCollection, { email, firstname, lastname, role, password });
+        alert("Utilisateur ajouté !");
+        fetchUsers();
+    }
+
+    async function deleteUser(id) {
+        if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
+            await deleteDoc(doc(db, "Users", id));
+            alert("Utilisateur supprimé !");
+            fetchUsers();
+        }
+    }
+
+    window.editUser = async (id, email, firstname, lastname, role) => {
+        const newFirstname = prompt("Modifier le prénom :", firstname);
+        const newLastname = prompt("Modifier le nom :", lastname);
+        const newRole = prompt("Modifier le rôle :", role);
+
+        if (newFirstname && newLastname && newRole) {
+            await updateDoc(doc(db, "Users", id), {
+                firstname: newFirstname,
+                lastname: newLastname,
+                role: newRole
+            });
+            alert("Utilisateur mis à jour !");
+            fetchUsers();
+        }
+    };
+
+    document.getElementById("addUserForm").addEventListener("submit", addUser);
+    fetchUsers();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning et Cours</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body>
+        <div class="sb-nav-fixed" >
+            <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+                <!-- Navbar Brand-->
+                <a class="navbar-brand ps-3" href="index.html">e.knowledge</a>
+                <!-- Sidebar Toggle-->
+                <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+                <!-- Navbar Search-->
+                <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                        <button class="btn btn-success" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+    
+            </nav>
+
+
+            <br><br>
+    <header>
+        
+        <h1 >Mon Planning et Mes Cours</h1>
+    </header>
+    <div class="container1">
+        <!-- Section de Planification à droite -->
+        <!-- Partie planning -->
+        <aside class="planning">
+            <h2 style="color: gray;">Planning de Cours</h2>
+                   <!-- Section Calendrier à gauche -->
+                <div class="calendar-section">
+                    <h4>Calendrier</h4>
+                    <div id="calendar"></div>
+                </div>
+
+        <div class="planning-section">
+            <h4>Planifiez un événement</h4>
+            <form id="event-form">
+                <label for="event-date">Sélectionner une date :</label>
+                <input type="text" id="event-date" readonly>
+
+                <label for="event-time">Sélectionner une heure :</label>
+                <select id="event-time">
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                </select>
+
+                <label for="event-description">Description de l'événement :</label>
+                <textarea id="event-description" placeholder="Entrez la description de l'événement"></textarea>
+
+                <button type="submit">Planifier</button>
+            </form>
+            <div id="event-list"></div>
+        </div>
+ 
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jour</th>
+                        <th>Heure</th>
+                        <th>Cours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lundi</td>
+                        <td>08:00 - 10:00</td>
+                        <td>laravel cour 2</td>
+                    </tr>
+                    <tr>
+                        <td>Mardi</td>
+                        <td>10:30 - 12:30</td>
+                        <td>angular</td>
+                    </tr>
+                    <tr>
+                        <td>Mercredi</td>
+                        <td>14:00 - 16:00</td>
+                        <td>mysql</td>
+                    </tr>
+                    <!-- Ajoutez d'autres lignes selon les besoins -->
+                </tbody>
+            </table>
+            <br><br>
+
+            <table>
+                <h4>Mes examens </h4>
+                <thead>
+                   <br>
+                   <i style="color: grey;">aucun examen pour l'instant</i>
+                </thead>
+                <tbody>
+                   
+                    <br>
+                    <!-- Ajoutez d'autres lignes selon les besoins -->
+                </tbody>
+            </table>
+
+            <br><br>
+            <table>
+                <h4>Projet publié </h4>
+              <br>
+              <i style="color: grey;">aucun projet pour l'instant</i>
+
+                    <!-- Ajoutez d'autres lignes selon les besoins -->
+                </tbody>
+            </table>
+            <br><br><br>
+            <table>
+                <h4>Mes certifications </h4>
+               <br>
+              <b> <p style="color:blueviolet;">1.cetification datascient </p></b>
+            </table>
+            <br><br>
+            <table>
+                <h4>Mes Techargements </h4>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-area me-1"></i>
+                        Mes cours disponibles
+                    </div>
+                   
+                            <ul>
+                                <li><p>cour 1 laravel <img src="assets/img/R (1).png" alt="Logo de téléchargement" style="vertical-align: middle; width: 20px; height: 20px;">
+                                </p> </li></p>
+                                <li><p>cour 2 laravel  <img src="assets/img/R (1).png" alt="Logo de téléchargement" style="vertical-align: middle; width: 20px; height: 20px;">
+                                </p> </li></p>
+                            </ul>        
+                              
+                   
+            </div>
+            </table>
+        </aside>
+
+        <!-- Partie cours avec vidéos et documents -->
+        <main class="cours">
+            <h2 style="color: gray;">Cours et Ressources</h2>
+            
+            <!-- Cours 1 -->
+            <section class="cours-section">
+                <h3>#aprrendre laravel : cour 1</h3>
+                <p>suivez notre formation: au cour de cette episode il sera question de parler de connaissance basique sur laravel <br>debuter ave l'insrallation des outils tel que composer, php...</p>
+                <video controls>
+                    <source src="assets/img/WhatsApp Video 2024-11-22 at 12.34.41.mp4" type="video/mp4">
+                    Votre navigateur ne prend pas en charge la lecture de vidéos.
+                </video>
+                <p>pour vos support ecrit vous pouvez <a href="math_cours.pdf" target="_blank">Télécharger le cours (PDF)</a></p>
+                <a href="math_tp.zip" target="_blank">Télécharger les Travaux Pratiques (TP)</a>
+            </section>
+
+            <!-- Cours 2 -->
+            <section class="cours-section">
+                <h3>#apprendre laravel .cour 2</h3>
+                <p>suivez notre formation: au cour de cette episode il sera question de parler de connaissance basique sur laravel <br>debuter ave l'insrallation des outils tel que composer, php...</p>
+            
+                <video controls>
+                    <source src="assets/img/WhatsApp Video 2024-11-22 at 12.34.41.mp4" type="video/mp4">
+                    Votre navigateur ne prend pas en charge la lecture de vidéos.
+                </video>
+                <p> pour vos support ecrit vous pouvez <a href="physique_cours.pdf" target="_blank">Télécharger le cours (PDF)</a> </p>
+                <p><a href="physique_tp.zip" target="_blank">Télécharger les Travaux Pratiques (TP)</a></p>
+            </section>
+
+            <!-- Cours 3 -->
+            <section class="cours-section">
+                <h3>#apprendre Laravel .Cour 3</h3>
+                <p>suivez notre formation: au cour de cette episode il sera question de parler de connaissance basique sur laravel <br>debuter ave l'insrallation des outils tel que composer, php...</p>
+               
+                <video controls>
+                    <source src="assets/img/WhatsApp Video 2024-11-22 at 12.34.41.mp4" type="video/mp4">
+                    Votre navigateur ne prend pas en charge la lecture de vidéos.
+                </video>
+                <p>pour vos support ecrit vous pouvez <a href="informatique_cours.pdf" target="_blank">Télécharger le cours (PDF)</a></p>
+                <p><a href="informatique_tp.zip" target="_blank">Télécharger les Travaux Pratiques (TP)</a></p>
+            </section>
+        </main>
+    </div>
+
+   <!---- <footer>
+        <p>&copy; 2024 Mon Université - Tous droits réservés</p>
+    </footer>-->
+
+    <script src="demo.js"></script>
+</body>
+</html>
