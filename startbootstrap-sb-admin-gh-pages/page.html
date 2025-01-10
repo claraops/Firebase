@@ -8,11 +8,25 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-       
 
+    <style>
+        #background {
+            background-image: url('/startbootstrap-sb-admin-gh-pages/assets/img/graphic-1552416_1280.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            color: white;
+            
+        }
+        .btn-center {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-    <div class="sb-nav-fixed" >
+    <div class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.html">e.knowledge</a>
@@ -25,28 +39,123 @@
                     <button class="btn btn-success" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
             </form>
+            <!-- User Menu-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user fa-fw"></i>
+                    </a>
+                   
+                </li>
+            </ul>
+        </nav>
+       
+        <div class="container-fluid" id="background">
+            <div>
+                <h1 style="text-align: left;"><br><br><b>bonjour et bienvenu sur notre <br> application E.knowledge</b></h1>
+                <br><br><br><br><br><br>
+                <div class="btn-center mt-4 mb-0" style="justify-content: center;
+                align-items: center;
+                text-align: center;">
+                    <a class="btn btn-success" href="login.html">Se connecter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+       
+
+</head>
+<body  style="background-image: url('/startbootstrap-sb-admin-gh-pages/assets/img/graphic-1552416_1280.png');">
+    <div class="sb-nav-fixed" >
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand--
+            <a class="navbar-brand ps-3" href="index.html">e.knowledge</a>
+            <!-- Sidebar Toggle--
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search--
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-success" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
 
         </nav> 
-        <div class="container-fluid" id="fond">
+        <div class="container-fluid" id="">
             <br> <br><br><br>
-        <div>
-            <h1> <b>bonjour et bienvenu sur notre apllication e.knowledge</b> </h1>
+                <div>
+                    <h1 style="text-align: center;"> <b>bonjour et bienvenu sur notre apllication e.knowledge</b> </h1>
+                </div>
+
+                <br> <br><br><br> <br> <br> <br><br> <br><br><br> <br> <br> <br><br><br><br><br><br>
+
+                <div class="d-flex align-items-center justify-content-between mt-4 mb-0 text-center">
+                    <a class="btn btn-success"  href="login.html">se connectez</a>
+                </div>
+
+                
+           
+                
         </div>
         
-
-        </div>
+         
         
         
-
-       
-      
-
-
-        <br> <br><br><br> <br> <br> <br><br> <br><br><br> <br> <br> <br>
-        <div>
-            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                <a class="btn btn-success" href="login.html">se connectez</a>
-        </div>
+           
        
         </div>
     

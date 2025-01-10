@@ -1,6 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajout Formation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-success">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Ajout Formation</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="small mb-3 text-muted">Veuillez remplir les champs de votre formation</div>
+                                    <form>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="titre" type="text" placeholder="Titre de la formation" />
+                                            <label for="titre">Titre</label>
+                                        </div>
+                                        <input class="form-control" id="photo" type="file" placeholder="Choisissez une photo" />
+                                        <div class="text-center mt-4 mb-0">
+                                            <button class="btn btn-success" id="addButton">Ajouter</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="container" style="text-align: right;">
+                                    <a href="index.html" class="icon-link">
+                                        <i class="fas fa-arrow-right"></i> Suivant >
+                                    </a>
+                                </div> <br>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.appspot.com",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Gestion du formulaire d'ajout
+        document.addEventListener("DOMContentLoaded", () => {
+            const addButton = document.getElementById("addButton");
+            const titleInput = document.getElementById("titre");
+            const photoInput = document.getElementById("photo");
+
+            addButton.addEventListener("click", async (event) => {
+                event.preventDefault();
+
+                const title = titleInput.value.trim();
+                const photo = photoInput.files[0];
+
+                if (!title || !photo) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                // Convertir l'image en base64
+                const reader = new FileReader();
+                reader.onloadend = async () => {
+                    const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+
+                    try {
+                        // Ajouter les informations dans Firestore
+                        await addDoc(collection(db, "Formation"), {
+                            titre: title,
+                            photoFormation: base64String,
+                            createdAt: new Date()
+                        });
+
+                        alert("Formation ajoutée avec succès !");
+                        titleInput.value = "";
+                        photoInput.value = "";
+                    } catch (error) {
+                        console.error("Erreur lors de l'ajout :", error);
+                        alert("Une erreur est survenue lors de l'ajout.");
+                    }
+                };
+                reader.readAsDataURL(photo);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Ajout Formation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Head content here --
+</head>
+<body class="bg-success">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Ajout Formation</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="small mb-3 text-muted">Veuillez remplir les champs de votre formation</div>
+                                    <form>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="titre" type="text" placeholder="Titre de la formation" />
+                                            <label for="titre">Titre</label>
+                                        </div>
+                                        <input class="form-control" id="photo" type="file" placeholder="Choisissez une photo" />
+                                        <div class="text-center mt-4 mb-0">
+                                            <button class="btn btn-success" id="addButton">Ajouter</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.appspot.com",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Gestion du formulaire d'ajout
+        document.addEventListener("DOMContentLoaded", () => {
+            const addButton = document.getElementById("addButton");
+            const titleInput = document.getElementById("titre");
+            const photoInput = document.getElementById("photo");
+
+            addButton.addEventListener("click", async (event) => {
+                event.preventDefault();
+
+                const title = titleInput.value.trim();
+                const photo = photoInput.files[0];
+
+                if (!title || !photo) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                try {
+                    // Upload de la photo dans Firebase Storage
+                    const storageRef = ref(storage, `formations/${photo.name}`);
+                    await uploadBytes(storageRef, photo);
+                    const photoURL = await getDownloadURL(storageRef);
+
+                    // Ajouter les informations dans Firestore
+                    const formationRef = await addDoc(collection(db, "Formation"), {
+                        titre: title,
+                        photoFormation: photoURL,
+                        createdAt: new Date()
+                    });
+
+                    alert("Formation ajoutée avec succès !");
+                    titleInput.value = "";
+                    photoInput.value = "";
+                } catch (error) {
+                    console.error("Erreur lors de l'ajout :", error);
+                    alert("Une erreur est survenue lors de l'ajout.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Ajout Formation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7PLKCpJnllgGvZTQqy4h1use5tiII16M",
+            authDomain: "eknowledge-10550.firebaseapp.com",
+            projectId: "eknowledge-10550",
+            storageBucket: "eknowledge-10550.appspot.com",
+            messagingSenderId: "562503063681",
+            appId: "1:562503063681:web:ff137f2b9a71e141749580"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Gestion du formulaire d'ajout
+        document.addEventListener("DOMContentLoaded", () => {
+            const addButton = document.getElementById("addButton");
+            const titleInput = document.getElementById("titre");
+            const photoInput = document.getElementById("photo");
+
+            addButton.addEventListener("click", async (event) => {
+                event.preventDefault();
+
+                const title = titleInput.value.trim();
+                const photo = photoInput.files[0];
+
+                if (!title || !photo) {
+                    alert("Veuillez remplir tous les champs.");
+                    return;
+                }
+
+                try {
+                    // Ajouter les informations dans Firestore
+                    const formationRef = await addDoc(collection(db, "Formation"), {
+                        titre: title,
+                        photoFormation: photo.name // Sauvegarder le nom du fichier (upload dans Storage si nécessaire)
+                    });
+
+                    alert("Formation ajoutée avec succès !");
+                    titleInput.value = "";
+                    photoInput.value = "";
+                } catch (error) {
+                    console.error("Erreur lors de l'ajout :", error);
+                    alert("Une erreur est survenue lors de l'ajout.");
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-success">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Ajout Formation</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="small mb-3 text-muted">Veuillez remplir les champs de votre formation</div>
+                                    <form>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="titre" type="text" placeholder="Titre de la formation" />
+                                            <label for="titre">Titre</label>
+                                        </div>
+
+                                        <input class="form-control" id="photo" type="file" placeholder="Choisissez une photo" />
+
+                                        <!--- <div class="form-floating mb-3">
+                                            
+                                            <label for="photo">Insérer une photo</label>--
+                                        </div>
+                                        <div class="text-center mt-4 mb-0">
+                                            <button class="btn btn-success" id="addButton">Ajouter</button>
+                                        </div>
+                                        <br><br><br>
+                                    </form>
+                                </div>
+                                <br><br><br><br><br><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <div id="layoutAuthentication_footer">
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <!--<div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>--
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -82,10 +492,10 @@
 
                                        <!--- <div class="form-floating mb-3">
                                            
-                                            <label for="photo">Insérer une photo</label>-->
+                                            <label for="photo">Insérer une photo</label>--
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <button class="btn btn-success" style="text-align: center;" id="addButton">Ajouter</button>
+                                            <button class="btn btn-success"  id="addButton">Ajouter</button>
                                         </div>
                                         <br><br><br>
                                     </form>
@@ -108,7 +518,7 @@
                             <a href="#">Privacy Policy</a>
                             &middot;
                             <a href="#">Terms &amp; Conditions</a>
-                        </div>-->
+                        </div>--
                     </div>
                    
                 </footer>
